@@ -11,6 +11,7 @@ export const globalImagePath = {
     search_fill:require('./search_fill.png'),
     shopping_bag:require('./shopping-bag.png'),
     user_fill:require('./user_fill.png'),
-    user:require('./user.png')
+    user:require('./user.png'),
+    loader:require('../gif/gg.gif')
 
 }

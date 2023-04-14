@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon:{
-    height:hp(5),
-    width:hp(5),
+    height:hp(4),
+    width:hp(4),
     tintColor:'#fff'
   },
   titleTxt:{

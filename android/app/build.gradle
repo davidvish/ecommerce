@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
-
+apply plugin: "com.google.gms.google-services"
 import com.android.build.OutputFile
 
 /**
@@ -155,7 +155,8 @@ android {
 }
 
 dependencies {
-    // The version of react-native is set by the React Native Gradle Plugin
+  // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.6.0'    
     implementation("com.facebook.react:react-android")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")

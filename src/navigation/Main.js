@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import HomeScreen from './HomeScreen';
+import HomeScreen from '../screen/HomeScreen';
 
 const Drawer = createDrawerNavigator();
 
