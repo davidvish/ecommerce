@@ -4,6 +4,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Main from './Main';
 import ProductDetails from '../screen/ProductDetails';
+import Home from '../screen/Home';
+import Search from '../screen/Search';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +23,8 @@ const AppNavigation = () => {
           component={ProductDetails}
           options={{headerShown: false}}
         />
-        
+        <Stack.Screen name={'Home'} component={Home} />
+        <Stack.Screen name={'Search'} component={Search} />
       </Stack.Navigator>
     </NavigationContainer>
   );

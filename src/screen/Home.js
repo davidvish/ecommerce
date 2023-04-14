@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import Header from '../../component/Header';
-import {globalImagePath} from '../../assets/image/globalImagePath';
+import Header from '../component/Header';
+import {globalImagePath} from '../assets/image/globalImagePath';
 import {useNavigation} from '@react-navigation/native';
 import {
   responsiveHeight as hp,
@@ -17,13 +17,16 @@ import {
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
 import AnimatedLoader from 'react-native-animated-loader';
-import LoaderAnimation from '../../component/Loader';
+import LoaderAnimation from '../component/Loader';
+import {useDispatch} from 'react-redux';
+import {addProduct} from '../redux/slices/ProductSlices';
 
 const Home = () => {
   const navigation = useNavigation();
   const [loader, setLoader] = useState(true);
   const [productsData, setProductsData] = useState([]);
-  console.log(productsData);
+  // console.log(productsData);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
@@ -32,10 +35,13 @@ const Home = () => {
     }, 2000);
   }, []);
 
-  const getProducts = () => {
-    fetch('https://fakestoreapi.com/products')
+  const getProducts = async () => {
+   await fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
-      .then(json => setProductsData(json));
+      .then(json => {
+        setProductsData(json);
+        dispatch(addProduct(json));
+      });
   };
   return (
     <View style={styles.container}>
@@ -54,7 +60,9 @@ const Home = () => {
           renderItem={({item, index}) => {
             return (
               <TouchableOpacity
-              onPress={() => navigation.navigate('ProductDetails',{data :item})}
+                onPress={() =>
+                  navigation.navigate('ProductDetails', {data: item})
+                }
                 activeOpacity={0.9}
                 style={[styles.card, styles.flex]}>
                 <View style={styles.img}>

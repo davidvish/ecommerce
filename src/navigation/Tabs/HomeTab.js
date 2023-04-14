@@ -1,15 +1,15 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import Header from '../component/Header';
-import {globalImagePath} from '../assets/image/globalImagePath';
+import Header from '../../component/Header';
+import {globalImagePath} from '../../assets/image/globalImagePath';
 import {responsiveHeight as hp} from 'react-native-responsive-dimensions';
-import Search from '../navigation/Tabs/Search';
-import Home from '../navigation/Tabs/Home';
-import Wishlist from '../navigation/Tabs/Wishlist';
-import Notification from '../navigation/Tabs/Notification';
-import User from '../navigation/Tabs/User';
+import Search from '../../screen/Search';
+import Home from '../../screen/Home';
+import Wishlist from './Wishlist';
+import Notification from './Notification';
+import User from './User';
 
-const HomeScreen = () => {
+const HomeTab = () => {
   const [selectedTab, setSelectedTab] = useState(0);
  
   return (
@@ -96,7 +96,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default HomeTab;
 
 const styles = StyleSheet.create({
   container: {

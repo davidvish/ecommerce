@@ -12,6 +12,7 @@ export const globalImagePath = {
     shopping_bag:require('./shopping-bag.png'),
     user_fill:require('./user_fill.png'),
     user:require('./user.png'),
-    loader:require('../gif/gg.gif')
+    loader:require('../gif/gg.gif'),
+    close:require('./close.png')
 
 }
