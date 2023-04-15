@@ -18,6 +18,7 @@ import {
 import CustomButton from '../component/CustomButton';
 import {useDispatch} from 'react-redux';
 import {addItemToWishList} from '../redux/slices/WishListSlices';
+import { addItemToCart } from '../redux/slices/CartSlices';
 
 const ProductDetails = () => {
   const navigation = useNavigation();
@@ -66,7 +67,7 @@ const ProductDetails = () => {
         <CustomButton
           bg={'#ff9a0c'}
           buttonText={'Add To Cart'}
-          onPress={() => dispatch(addItemToWishList(route.params.data))}
+          onPress={() => dispatch(addItemToCart(route.params.data))}
         />
       </ScrollView>
     </View>
