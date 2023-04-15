@@ -16,10 +16,13 @@ import {
   responsiveWidth as wp,
 } from 'react-native-responsive-dimensions';
 import CustomButton from '../component/CustomButton';
+import {useDispatch} from 'react-redux';
+import {addItemToWishList} from '../redux/slices/WishListSlices';
 
 const ProductDetails = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Header
@@ -29,7 +32,10 @@ const ProductDetails = () => {
         title={'Product Details'}
       />
       <Image style={styles.prodImg} source={{uri: route.params.data.image}} />
-      <TouchableOpacity activeOpacity={1} style={styles.wishlist}>
+      <TouchableOpacity
+        onPress={() => dispatch(addItemToWishList(route.params.data))}
+        activeOpacity={0.5}
+        style={styles.wishlist}>
         <Image style={styles.heart} source={globalImagePath.heart} />
       </TouchableOpacity>
       <ScrollView style={{paddingHorizontal: wp(5)}}>
@@ -60,7 +66,7 @@ const ProductDetails = () => {
         <CustomButton
           bg={'#ff9a0c'}
           buttonText={'Add To Cart'}
-          onPress={() => console.log('10')}
+          onPress={() => dispatch(addItemToWishList(route.params.data))}
         />
       </ScrollView>
     </View>
@@ -109,18 +115,18 @@ const styles = StyleSheet.create({
     height: hp(8),
     width: hp(8),
     backgroundColor: '#E2DFDF',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     top: hp(12),
-    right:wp(5),
+    right: wp(5),
     bottom: 0,
-    borderRadius:hp(50)
+    borderRadius: hp(50),
   },
-  heart:{
+  heart: {
     height: hp(4),
-    width: hp(4),  
-    justifyContent:'center',
-    alignItems:'center',
-    alignSelf:'center'
-  }
+    width: hp(4),
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
 });

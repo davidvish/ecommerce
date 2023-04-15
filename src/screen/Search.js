@@ -17,12 +17,15 @@ import {
   responsiveWidth as wp,
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
+import { useNavigation } from '@react-navigation/native';
 
 const Search = () => {
   const products = useSelector(state => state);
   const [search, setSearch] = useState('');
   const [oldData, setOldData] = useState(products.product.data);
-  const [searchedList, setSearchedList] = useState([]);
+  const [searchedList, setSearchedList] = useState(oldData);
+
+  const navigation = useNavigation()
 
   const filterData = txt => {
     let newData = oldData.filter(e => {
@@ -32,7 +35,7 @@ const Search = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Header title={'Search item'} />
       <View style={styles.searchView}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
