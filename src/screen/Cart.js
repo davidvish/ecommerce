@@ -20,6 +20,7 @@ import {
   reduceItemFromCart,
   removeItemFromCart,
 } from '../redux/slices/CartSlices';
+import {globalImagePath} from '../assets/image/globalImagePath';
 
 const Cart = () => {
   const items = useSelector(state => state.cart);
@@ -35,7 +36,11 @@ const Cart = () => {
 
   return (
     <View style={styles.container}>
-      <Header title={'Cart'} />
+      <Header
+        title={'Cart'}
+        leftIcon={globalImagePath.left}
+        onClickLeftIcon={() => navigation.goBack()}
+      />
       <View>
         <FlatList
           data={cartItem}
