@@ -25,6 +25,18 @@ const ProductDetails = () => {
   const route = useRoute();
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
+  const qtyAdd = () => {
+    dispatch(addItemToCart({
+      category:route.params.data.category,
+      description:route.params.data.description,
+      id:route.params.data.id,
+      image:route.params.data.image,
+      price:route.params.data.price,
+      qty:qty,
+      rating:route.params.data.rating,
+      title:route.params.data.title,
+    }))
+  }
   return (
     <View style={styles.container}>
       <Header
@@ -88,16 +100,7 @@ const ProductDetails = () => {
         <CustomButton
           bg={'#ff9a0c'}
           buttonText={'Add To Cart'}
-          onPress={() => dispatch(addItemToCart({
-            category:route.params.data.category,
-            description:route.params.data.description,
-            id:route.params.data.id,
-            image:route.params.data.image,
-            price:route.params.data.price,
-            qty:qty,
-            rating:route.params.data.rating,
-            title:route.params.data.title,
-          }))}
+          onPress={() => qtyAdd() }
         />
       </ScrollView>
     </View>
