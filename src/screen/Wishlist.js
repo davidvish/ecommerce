@@ -14,10 +14,12 @@ import {
   responsiveWidth as wp,
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
+import { useNavigation } from '@react-navigation/native';
 
 const Wishlist = () => {
   const items = useSelector(state => state.wishList);
   // console.log(JSON.stringify(items)+ "" + items.data.length)
+  const navigation = useNavigation()
 
   const [wishListItem, setWishListItem] = useState(items.data);
 

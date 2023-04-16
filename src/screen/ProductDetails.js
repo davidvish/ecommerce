@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../component/Header';
 import {globalImagePath} from '../assets/image/globalImagePath';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -18,12 +18,13 @@ import {
 import CustomButton from '../component/CustomButton';
 import {useDispatch} from 'react-redux';
 import {addItemToWishList} from '../redux/slices/WishListSlices';
-import { addItemToCart } from '../redux/slices/CartSlices';
+import {addItemToCart} from '../redux/slices/CartSlices';
 
 const ProductDetails = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
+  const [qty, setQty] = useState(1);
   return (
     <View style={styles.container}>
       <Header
@@ -31,6 +32,7 @@ const ProductDetails = () => {
         onClickLeftIcon={() => navigation.goBack()}
         rightIcon={globalImagePath.shopping_bag}
         title={'Product Details'}
+        isCart={true}
       />
       <Image style={styles.prodImg} source={{uri: route.params.data.image}} />
       <TouchableOpacity
@@ -62,12 +64,40 @@ const ProductDetails = () => {
                 }>{` ${route.params.data.rating['count']}`}</Text>
             </View> */}
           </View>
+          <View style={[styles.flexRow, {marginLeft: wp(5)}]}>
+            <TouchableOpacity
+              style={styles.qty}
+              onPress={() => {
+                if (qty > 1) {
+                  setQty(qty - 1);
+                }
+              }}>
+              <Text>{' - '}</Text>
+            </TouchableOpacity>
+            <Text style={styles.qtyTxt}>{qty}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setQty(qty + 1);
+              }}
+              style={[styles.qty, {marginLeft: wp(5)}]}>
+              <Text>{' + '}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <CustomButton
           bg={'#ff9a0c'}
           buttonText={'Add To Cart'}
-          onPress={() => dispatch(addItemToCart(route.params.data))}
+          onPress={() => dispatch(addItemToCart({
+            category:route.params.data.category,
+            description:route.params.data.description,
+            id:route.params.data.id,
+            image:route.params.data.image,
+            price:route.params.data.price,
+            qty:qty,
+            rating:route.params.data.rating,
+            title:route.params.data.title,
+          }))}
         />
       </ScrollView>
     </View>
@@ -129,5 +159,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  qty: {
+    height: hp(4),
+    width: hp(4),
+    borderWidth: 1,
+    borderColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    fontSize: rfs(2),
+    borderRadius: 2,
+  },
+  qtyTxt: {
+    fontSize: rfs(2),
+    textAlign: 'center',
+    alignSelf: 'center',
+    left: wp(3),
+  },
+  flexRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

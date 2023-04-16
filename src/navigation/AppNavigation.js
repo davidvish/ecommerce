@@ -6,6 +6,7 @@ import Main from './Main';
 import ProductDetails from '../screen/ProductDetails';
 import Home from '../screen/Home';
 import Search from '../screen/Search';
+import Cart from '../screen/Cart';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,8 +24,21 @@ const AppNavigation = () => {
           component={ProductDetails}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={'Home'} component={Home} />
-        <Stack.Screen name={'Search'} component={Search} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name={'Home'}
+          component={Home}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name={'Search'}
+          component={Search}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name={'Cart'}
+          component={Cart}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

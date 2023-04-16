@@ -40,6 +40,9 @@ const Home = () => {
       .then(res => res.json())
       .then(json => {
         setProductsData(json);
+        json.map(item =>{
+          item.qty = 1;
+        })
         dispatch(addProduct(json));
       });
   };
@@ -50,6 +53,7 @@ const Home = () => {
         leftIcon={globalImagePath.menu}
         rightIcon={globalImagePath.shopping_bag}
         onClickLeftIcon={() => navigation.openDrawer()}
+        isCart={true}
       />
 
       {loader ? (

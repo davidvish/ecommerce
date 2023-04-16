@@ -13,6 +13,7 @@ import {
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
 import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const {height, width} = Dimensions.get('window');
 
@@ -22,21 +23,28 @@ const Header = ({
   rightIcon,
   onClickLeftIcon,
   onClickRightIcon,
+  isCart,
 }) => {
   const cartItem = useSelector(state => state.cart);
   console.log(cartItem.data.length);
+  const navigation = useNavigation();
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.bnt} onPress={() => onClickLeftIcon()}>
         <Image source={leftIcon} style={styles.icon} />
       </TouchableOpacity>
       <Text style={styles.titleTxt}>{title}</Text>
-      <TouchableOpacity style={styles.bnt}>
-        <Image source={rightIcon} style={styles.icon} />
-        <View style={styles.addCart}>
-          <Text style={styles.cartTxt}>{cartItem.data.length}</Text>
-        </View>
-      </TouchableOpacity>
+      {!isCart && (<View/>)}
+      {isCart && (
+        <TouchableOpacity
+          style={styles.bnt}
+          onPress={() => navigation.navigate('Cart')}>
+          <Image source={rightIcon} style={styles.icon} />
+          <View style={styles.addCart}>
+            <Text style={styles.cartTxt}>{cartItem.data.length}</Text>
+          </View>
+        </TouchableOpacity>
+      ) }
     </View>
   );
 };
@@ -72,15 +80,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#fff',
     borderRadius: 50,
-    height:hp(2.5),
-    width:hp(2.5),
-    justifyContent:'center',
-    alignItems:'center',
-    right:-wp(1),
-    top:hp(0)
+    height: hp(2.5),
+    width: hp(2.5),
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: -wp(1),
+    top: hp(0),
   },
   cartTxt: {
     color: '#000',
-    fontSize:rfs(1.2)
+    fontSize: rfs(1.2),
   },
 });
