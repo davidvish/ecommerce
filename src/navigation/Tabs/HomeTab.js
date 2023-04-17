@@ -7,7 +7,7 @@ import Search from '../../screen/Search';
 import Home from '../../screen/Home';
 import Wishlist from '../../screen/Wishlist';
 import Notification from './Notification';
-import User from './User';
+import User from '../../screen/User';
 
 const HomeTab = () => {
   const [selectedTab, setSelectedTab] = useState(0);

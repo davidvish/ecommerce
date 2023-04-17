@@ -13,6 +13,7 @@ export const globalImagePath = {
     user_fill:require('./user_fill.png'),
     user:require('./user.png'),
     loader:require('../gif/gg.gif'),
-    close:require('./close.png')
+    close:require('./close.png'),
+    avatar:require('./avatar.png')
 
 }

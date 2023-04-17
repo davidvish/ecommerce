@@ -41,8 +41,7 @@ const AppNavigation = () => {
           name={'Cart'}
           component={Cart}
         />
-      </Stack.Navigator>
-      <Stack.Screen
+         <Stack.Screen
           options={{headerShown: false}}
           name={'Login'}
           component={Login}
@@ -52,10 +51,11 @@ const AppNavigation = () => {
           name={'SignUp'}
           component={SignUp}
         />
+      </Stack.Navigator>
+     
     </NavigationContainer>
   );
 };
 
 export default AppNavigation;
 
-const styles = StyleSheet.create({});
