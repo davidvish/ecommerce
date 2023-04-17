@@ -1,24 +1,82 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveHeight as hp,
   responsiveWidth as wp,
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
 import CustomButton from '../component/CustomButton';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const SignUp = () => {
-  const navigation =useNavigation()
+  const navigation = useNavigation();
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [Password, setPassword] = useState('');
+
+  const AddUserData = () => {
+    firestore()
+      .collection('Users')
+      .add({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        Password,
+        Password,
+      })
+      .then(() => {
+        console.log('User added!');
+        navigation.navigate('Login')
+      });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.headTitle}>{'SignUp'}</Text>
-      <TextInput placeholder="First Name" style={styles.input} />
-      <TextInput placeholder="Last Name" style={styles.input} />
-      <TextInput placeholder="Email" style={styles.input} />
-      <TextInput placeholder="Phone" style={styles.input} />
-      <CustomButton buttonText={'Submit'} bg={'#E27800'} onPress={() => {}} />
-      <Text onPress={()=> navigation.navigate('Login')} style={styles.login}>{'Login'}</Text>
+      <TextInput
+        value={firstName}
+        placeholder="First Name"
+        style={styles.input}
+        onChangeText={txt => setFirstName(txt)}
+      />
+      <TextInput
+        value={lastName}
+        placeholder="Last Name"
+        style={styles.input}
+        onChangeText={txt => setLastName(txt)}
+      />
+      <TextInput
+        value={email}
+        placeholder="Email"
+        onChangeText={txt => setEmail(txt)}
+        style={styles.input}
+      />
+      <TextInput
+        value={phone}
+        placeholder="Phone"
+        style={styles.input}
+        onChangeText={txt => setPhone(txt)}
+      />
+      <TextInput
+        value={Password}
+        placeholder="Password"
+        style={styles.input}
+        onChangeText={txt => setPassword(txt)}
+      />
+
+      <CustomButton
+        buttonText={'Submit'}
+        bg={'#E27800'}
+        onPress={() => AddUserData()}
+      />
+      <Text onPress={() => navigation.navigate('Login')} style={styles.login}>
+        {'Login'}
+      </Text>
     </View>
   );
 };

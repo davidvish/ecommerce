@@ -1,28 +1,58 @@
-import { StyleSheet, Text, TextInput,View } from 'react-native'
-import React from 'react'
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
 import {
   responsiveHeight as hp,
   responsiveWidth as wp,
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
 import CustomButton from '../component/CustomButton';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const Login = () => {
-  const navigation =useNavigation()
+  const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const userCheck = () => {
+    firestore()
+      .collection('Users')
+      // Filter results
+      .where('email', '==', email)
+      .get()
+      .then(querySnapshot => {
+        console.log(querySnapshot.docs[0]._data);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.headTitle}>{'Already Account'}</Text>
-      <TextInput placeholder="Enter Email" style={styles.input} />
-      <TextInput placeholder="Password" style={styles.input} />
-     
-      <CustomButton buttonText={'Login'} bg={'#E27800'} onPress={() => {}} />
-      <Text onPress={()=> navigation.navigate('SignUp')} style={styles.login}>{'Signup'}</Text>
-    </View>
-  )
-}
+      <TextInput
+        value={email}
+        onChangeText={txt => setEmail(txt)}
+        placeholder="Enter Email"
+        style={styles.input}
+      />
+      <TextInput
+        value={password}
+        onChangeText={txt => setPassword(txt)}
+        placeholder="Password"
+        style={styles.input}
+      />
 
-export default Login
+      <CustomButton
+        buttonText={'Login'}
+        bg={'#E27800'}
+        onPress={() => userCheck()}
+      />
+      <Text onPress={() => navigation.navigate('SignUp')} style={styles.login}>
+        {'Signup'}
+      </Text>
+    </View>
+  );
+};
+
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -54,4 +84,4 @@ const styles = StyleSheet.create({
     paddingLeft: wp(3),
     marginBottom: hp(2),
   },
-})
+});
