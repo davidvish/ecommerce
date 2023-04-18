@@ -21,6 +21,7 @@ import {
   removeItemFromCart,
 } from '../redux/slices/CartSlices';
 import {globalImagePath} from '../assets/image/globalImagePath';
+import CheckOutLayout from '../component/CheckOutLayout';
 
 const Cart = () => {
   const items = useSelector(state => state.cart);
@@ -33,6 +34,14 @@ const Cart = () => {
   useEffect(() => {
     setCartItem(items.data);
   }, [items]);
+
+  const getTotalAmount = () => {
+    let total = 0;
+    cartItem.map(item => {
+      total = total + item.qty * item.price;
+    });
+    return total;
+  };
 
   return (
     <View style={styles.container}>
@@ -97,6 +106,14 @@ const Cart = () => {
           }}
         />
       </View>
+      {cartItem.length < 1 && (
+        <View style={styles.tabCart}>
+          <Text style={styles.noCartText}>No Item in Cart</Text>
+        </View>
+      )}
+      {cartItem.length > 0 && (
+        <CheckOutLayout item={cartItem.length} total={getTotalAmount()} />
+      )}
     </View>
   );
 };
@@ -172,4 +189,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     left: wp(3),
   },
+  tabCart:{
+    flex:1,
+    justifyContent:'center',
+    textAlign:"center"
+  },
+  noCartText:{
+    textAlign:'center',
+    fontSize:rfs(2.5),
+    color:'#000',
+    fontWeight:'600'
+  }
 });

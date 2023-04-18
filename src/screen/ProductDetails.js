@@ -138,22 +138,34 @@ const ProductDetails = () => {
           bg={'#ff9a0c'}
           buttonText={'Add To Cart'}
           onPress={() => {
-            if (checkUserStatus() === true) {
-              dispatch(
-                addItemToCart({
-                  category: route.params.data.category,
-                  description: route.params.data.description,
-                  id: route.params.data.id,
-                  image: route.params.data.image,
-                  price: route.params.data.price,
-                  qty: qty,
-                  rating: route.params.data.rating,
-                  title: route.params.data.title,
-                }),
-              );
-            } else {
-              setModalVisible(true);
-            }
+            dispatch(
+              addItemToCart({
+                category: route.params.data.category,
+                description: route.params.data.description,
+                id: route.params.data.id,
+                image: route.params.data.image,
+                price: route.params.data.price,
+                qty: qty,
+                rating: route.params.data.rating,
+                title: route.params.data.title,
+              }),
+            );
+            // if (checkUserStatus() === true) {
+            //   dispatch(
+            //     addItemToCart({
+            //       category: route.params.data.category,
+            //       description: route.params.data.description,
+            //       id: route.params.data.id,
+            //       image: route.params.data.image,
+            //       price: route.params.data.price,
+            //       qty: qty,
+            //       rating: route.params.data.rating,
+            //       title: route.params.data.title,
+            //     }),
+            //   );
+            // } else {
+            //   setModalVisible(true);
+            // }
           }}
         />
       </ScrollView>
