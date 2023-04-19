@@ -181,10 +181,14 @@ const Checkout = () => {
           <Text style={styles.payMethodTxt}>Cash on Delivery</Text>
         </View>
         <View style={styles.divider} />
-        <Text style={styles.headTitle}>Address</Text>
-        <TouchableOpacity>
-          <Text style={styles.payMethodTxt}>{selectAddress}</Text>
-        </TouchableOpacity>
+        <View style={styles.flexRow}>
+          <Text style={styles.headTitle}>Address</Text>
+          <Text onPress={()=> navigation.navigate('Address')} style={styles.editAddress}>Edit Address</Text>
+        </View>
+
+        <Text style={[styles.payMethodTxt, {marginLeft: 0}]}>
+          {selectAddress}
+        </Text>
 
         <CustomButton buttonText={'Pay or Order'} bg={'green'} />
       </ScrollView>
@@ -289,5 +293,10 @@ const styles = StyleSheet.create({
     fontSize: rfs(2.2),
     fontWeight: '400',
     marginLeft: wp(5),
+  },
+  editAddress: {
+    textDecorationLine: 'underline',
+    color: 'blue',
+    fontSize: rfs(2),
   },
 });
