@@ -14,6 +14,8 @@ export const globalImagePath = {
     user:require('./user.png'),
     loader:require('../gif/gg.gif'),
     close:require('./close.png'),
-    avatar:require('./avatar.png')
+    avatar:require('./avatar.png'),
+    radioButton:require('./radio-button.png'),
+    radioButtonOn:require('./radio-on-button.png')
 
 }

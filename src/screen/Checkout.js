@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../component/Header';
@@ -21,6 +22,7 @@ import {
   reduceItemFromCart,
   removeItemFromCart,
 } from '../redux/slices/CartSlices';
+import CustomButton from '../component/CustomButton';
 
 const Checkout = () => {
   const items = useSelector(state => state.cart);
@@ -28,6 +30,8 @@ const Checkout = () => {
   const navigation = useNavigation();
 
   const [cartItem, setCartItem] = useState([]);
+  const [payMethodSelected, setPayMethodSelected] = useState(0);
+  const [selectAddress, setSelectAddress] = useState('Please Select Address');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,7 +53,9 @@ const Checkout = () => {
         onClickLeftIcon={() => navigation.goBack()}
         title={'Checkout'}
       />
-      <View style={{paddingHorizontal: wp(5)}}>
+      <ScrollView
+        style={{paddingHorizontal: wp(5)}}
+        showsVerticalScrollIndicator={false}>
         <Text style={styles.headTitle}>Added Item</Text>
         <FlatList
           data={cartItem}
@@ -105,13 +111,83 @@ const Checkout = () => {
             );
           }}
         />
-        <View style={[styles.flex, {justifyContent: 'space-between'}]}>
+        <View style={[styles.flexRow]}>
           <Text style={styles.prodName}>Total</Text>
-          <Text style={styles.prodName}>{getTotalAmount()}</Text>
+          <Text style={styles.prodName}>{`₹ ${getTotalAmount()}`}</Text>
         </View>
-        <View style={styles.divider}/>
-      </View>
-      
+        <View style={styles.divider} />
+        <View style={[styles.flex, {paddingVertical: hp(2.5)}]}>
+          <TouchableOpacity onPress={() => setPayMethodSelected(0)}>
+            <Image
+              style={[
+                styles.radioButton,
+                {tintColor: payMethodSelected == 0 ? 'green' : 'black'},
+              ]}
+              source={
+                payMethodSelected == 0
+                  ? globalImagePath.radioButtonOn
+                  : globalImagePath.radioButton
+              }
+            />
+          </TouchableOpacity>
+          <Text style={styles.payMethodTxt}>Credit Cart</Text>
+        </View>
+        <View style={[styles.flex, {paddingVertical: hp(2.5)}]}>
+          <TouchableOpacity onPress={() => setPayMethodSelected(1)}>
+            <Image
+              style={[
+                styles.radioButton,
+                {tintColor: payMethodSelected == 1 ? 'green' : 'black'},
+              ]}
+              source={
+                payMethodSelected == 1
+                  ? globalImagePath.radioButtonOn
+                  : globalImagePath.radioButton
+              }
+            />
+          </TouchableOpacity>
+          <Text style={styles.payMethodTxt}>Debit Cart</Text>
+        </View>
+        <View style={[styles.flex, {paddingVertical: hp(2.5)}]}>
+          <TouchableOpacity onPress={() => setPayMethodSelected(2)}>
+            <Image
+              style={[
+                styles.radioButton,
+                {tintColor: payMethodSelected == 2 ? 'green' : 'black'},
+              ]}
+              source={
+                payMethodSelected == 2
+                  ? globalImagePath.radioButtonOn
+                  : globalImagePath.radioButton
+              }
+            />
+          </TouchableOpacity>
+          <Text style={styles.payMethodTxt}>UPI</Text>
+        </View>
+        <View style={[styles.flex, {paddingVertical: hp(2.5)}]}>
+          <TouchableOpacity onPress={() => setPayMethodSelected(3)}>
+            <Image
+              style={[
+                styles.radioButton,
+                {tintColor: payMethodSelected ? 'green' : 'black'},
+              ]}
+              source={
+                payMethodSelected == 3
+                  ? globalImagePath.radioButtonOn
+                  : globalImagePath.radioButton
+              }
+            />
+          </TouchableOpacity>
+          <Text style={styles.payMethodTxt}>Cash on Delivery</Text>
+        </View>
+        <View style={styles.divider} />
+        <Text style={styles.headTitle}>Address</Text>
+        <TouchableOpacity>
+          <Text style={styles.payMethodTxt}>{selectAddress}</Text>
+        </TouchableOpacity>
+
+        <CustomButton buttonText={'Pay or Order'} bg={'green'} />
+      </ScrollView>
     </View>
   );
 };
@@ -127,6 +203,7 @@ const styles = StyleSheet.create({
     fontSize: rfs(2.5),
     color: '#000',
     fontWeight: '600',
+    marginVertical: hp(2),
   },
 
   flex: {
@@ -198,8 +275,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
   },
-  divider:{
-    height:1,
-    backgroundColor:'#ccc'
-  }
+  divider: {
+    height: 1,
+    backgroundColor: '#ccc',
+    marginTop: hp(1),
+  },
+  radioButton: {
+    height: hp(3),
+    width: hp(3),
+  },
+  payMethodTxt: {
+    color: '#000',
+    fontSize: rfs(2.2),
+    fontWeight: '400',
+    marginLeft: wp(5),
+  },
 });
