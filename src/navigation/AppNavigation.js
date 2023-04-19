@@ -9,6 +9,7 @@ import Search from '../screen/Search';
 import Cart from '../screen/Cart';
 import Login from '../screen/Login';
 import SignUp from '../screen/SignUp';
+import Checkout from '../screen/Checkout';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,11 @@ const AppNavigation = () => {
           options={{headerShown: false}}
           name={'SignUp'}
           component={SignUp}
+        />
+         <Stack.Screen
+          options={{headerShown: false}}
+          name={'Checkout'}
+          component={Checkout}
         />
       </Stack.Navigator>
      

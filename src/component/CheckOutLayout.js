@@ -10,8 +10,10 @@ import {
   responsiveHeight as hp,
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
 
 const CheckOutLayout = ({total, item}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.tab}>
@@ -19,7 +21,9 @@ const CheckOutLayout = ({total, item}) => {
 
         <Text style={styles.totalTxt}>{`Total: ₹${total}`}</Text>
       </View>
-      <TouchableOpacity style={styles.checkOutBtn}>
+      <TouchableOpacity
+        style={styles.checkOutBtn}
+        onPress={() => navigation.navigate('Checkout')}>
         <Text style={styles.btnTxt}>Check Out</Text>
       </TouchableOpacity>
     </View>
