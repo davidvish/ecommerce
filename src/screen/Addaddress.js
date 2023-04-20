@@ -16,10 +16,17 @@ import {
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
 import CustomButton from '../component/CustomButton';
+import {useDispatch} from 'react-redux';
+import {addAddress} from '../redux/slices/AddAddressSlices';
 
 const Addaddress = () => {
   const navigation = useNavigation();
-  const [selectLocation, setSelectLocation] = useState(0);
+  const [type, setType] = useState(0);
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [pinCode, setPinCode] = useState('');
+
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Header
@@ -27,24 +34,39 @@ const Addaddress = () => {
         onClickLeftIcon={() => navigation.goBack()}
         title={'Add New Address'}
       />
-      <View style={{paddingHorizontal:wp(5)}}>
-        <TextInput placeholder="Enter State" style={styles.input} />
-        <TextInput placeholder="Enter City" style={styles.input} />
-        <TextInput placeholder="Enter Pin" style={styles.input} />
+      <View style={{paddingHorizontal: wp(5)}}>
+        <TextInput
+          value={state}
+          onChangeText={txt => setState(txt)}
+          placeholder="Enter State"
+          style={styles.input}
+        />
+        <TextInput
+          value={city}
+          onChangeText={txt => setCity(txt)}
+          placeholder="Enter City"
+          style={styles.input}
+        />
+        <TextInput
+          value={pinCode}
+          onChangeText={txt => setPinCode(txt)}
+          placeholder="Enter Pin"
+          style={styles.input}
+        />
         <View style={styles.flexRow}>
           <TouchableOpacity
-            onPress={() => setSelectLocation(1)}
+            onPress={() => setType(1)}
             style={[
               styles.tabView,
-              {borderColor: selectLocation == 1 ? 'green' : 'black'},
+              {borderColor: type == 1 ? 'green' : 'black'},
             ]}>
             <Image
               style={[
                 styles.radioButton,
-                {tintColor: selectLocation == 1 ? 'green' : 'black'},
+                {tintColor: type == 1 ? 'green' : 'black'},
               ]}
               source={
-                selectLocation == 1
+                type == 1
                   ? globalImagePath.radioButtonOn
                   : globalImagePath.radioButton
               }
@@ -52,18 +74,18 @@ const Addaddress = () => {
             <Text style={styles.regTxt}>Home</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setSelectLocation(2)}
+            onPress={() => setType(2)}
             style={[
               styles.tabView,
-              {borderColor: selectLocation == 2 ? 'green' : 'black'},
+              {borderColor: type == 2 ? 'green' : 'black'},
             ]}>
             <Image
               style={[
                 styles.radioButton,
-                {tintColor: selectLocation == 2 ? 'green' : 'black'},
+                {tintColor: type == 2 ? 'green' : 'black'},
               ]}
               source={
-                selectLocation == 2
+                type == 2
                   ? globalImagePath.radioButtonOn
                   : globalImagePath.radioButton
               }
@@ -71,7 +93,21 @@ const Addaddress = () => {
             <Text style={styles.regTxt}>Office</Text>
           </TouchableOpacity>
         </View>
-        <CustomButton buttonText={'Save Address'} bg={'orange'} />
+        <CustomButton
+          buttonText={'Save Address'}
+          bg={'orange'}
+          onPress={() => {
+            dispatch(
+              addAddress({
+                state: state,
+                city: city,
+                pinCode: pinCode,
+                type: type == 1 ? 'Home' : 'Office',
+              }),
+            );
+            navigation.goBack();
+          }}
+        />
       </View>
     </View>
   );

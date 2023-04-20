@@ -10,7 +10,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import Header from '../component/Header';
 import {globalImagePath} from '../assets/image/globalImagePath';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   responsiveHeight as hp,
   responsiveWidth as wp,
@@ -23,6 +23,7 @@ import {
   removeItemFromCart,
 } from '../redux/slices/CartSlices';
 import CustomButton from '../component/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Checkout = () => {
   const items = useSelector(state => state.cart);
@@ -34,10 +35,18 @@ const Checkout = () => {
   const [selectAddress, setSelectAddress] = useState('Please Select Address');
   const dispatch = useDispatch();
 
+  const isFocused = useIsFocused()
+
   useEffect(() => {
     setCartItem(items.data);
   }, [items]);
 
+  useEffect(() => {
+    getSelectedAddress()
+  }, [isFocused]);
+  const getSelectedAddress = async () => {
+    setSelectAddress(await AsyncStorage.getItem('MY_ADDRESS'));
+  };
   const getTotalAmount = () => {
     let total = 0;
     cartItem.map(item => {
@@ -183,7 +192,11 @@ const Checkout = () => {
         <View style={styles.divider} />
         <View style={styles.flexRow}>
           <Text style={styles.headTitle}>Address</Text>
-          <Text onPress={()=> navigation.navigate('Address')} style={styles.editAddress}>Edit Address</Text>
+          <Text
+            onPress={() => navigation.navigate('Address')}
+            style={styles.editAddress}>
+            Edit Address
+          </Text>
         </View>
 
         <Text style={[styles.payMethodTxt, {marginLeft: 0}]}>

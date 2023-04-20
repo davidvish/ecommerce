@@ -16,6 +16,8 @@ export const globalImagePath = {
     close:require('./close.png'),
     avatar:require('./avatar.png'),
     radioButton:require('./radio-button.png'),
-    radioButtonOn:require('./radio-on-button.png')
+    radioButtonOn:require('./radio-on-button.png'),
+    edit:require('./pen.png'),
+    delete:require('./delete.png')
 
 }
