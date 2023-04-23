@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../component/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {globalImagePath} from '../assets/image/globalImagePath';
 import {
   responsiveHeight as hp,
@@ -17,14 +17,29 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomButton from '../component/CustomButton';
 import {useDispatch} from 'react-redux';
-import {addAddress} from '../redux/slices/AddAddressSlices';
+import {addAddress, updateAddress} from '../redux/slices/AddAddressSlices';
+import uuid from 'react-native-uuid';
 
 const Addaddress = () => {
+  const route = useRoute();
+
   const navigation = useNavigation();
-  const [type, setType] = useState(0);
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
-  const [pinCode, setPinCode] = useState('');
+  const [type, setType] = useState(
+    route.params.type == 'edit'
+      ? route.params.data.type == 'Home'
+        ? 1
+        : 2
+      : 1,
+  );
+  const [state, setState] = useState(
+    route.params.type == 'edit' ? route.params.data.state : '',
+  );
+  const [city, setCity] = useState(
+    route.params.type == 'edit' ? route.params.data.city : '',
+  );
+  const [pinCode, setPinCode] = useState(
+    route.params.type == 'edit' ? route.params.data.pinCode : '',
+  );
 
   const dispatch = useDispatch();
   return (
@@ -32,7 +47,7 @@ const Addaddress = () => {
       <Header
         leftIcon={globalImagePath.left}
         onClickLeftIcon={() => navigation.goBack()}
-        title={'Add New Address'}
+        title={route.params.type == 'edit' ? 'Edit Address' : 'Add Address'}
       />
       <View style={{paddingHorizontal: wp(5)}}>
         <TextInput
@@ -97,14 +112,27 @@ const Addaddress = () => {
           buttonText={'Save Address'}
           bg={'orange'}
           onPress={() => {
-            dispatch(
-              addAddress({
-                state: state,
-                city: city,
-                pinCode: pinCode,
-                type: type == 1 ? 'Home' : 'Office',
-              }),
-            );
+            if (route.params.type == 'edit') {
+              dispatch(
+                updateAddress({
+                  state: state,
+                  city: city,
+                  pinCode: pinCode,
+                  type: type == 1 ? 'Home' : 'Office',
+                  id: route.params.data.id,
+                }),
+              );
+            } else {
+              dispatch(
+                addAddress({
+                  state: state,
+                  city: city,
+                  pinCode: pinCode,
+                  type: type == 1 ? 'Home' : 'Office',
+                  id: uuid.v4(),
+                }),
+              );
+            }
             navigation.goBack();
           }}
         />

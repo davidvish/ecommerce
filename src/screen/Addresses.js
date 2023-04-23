@@ -57,12 +57,15 @@ const Addresses = () => {
                 <Text style={styles.regTxt}>{`Pin Code: ${item.pinCode}`}</Text>
               </View>
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('AddAddress',{type: 'edit', data:item})
+                  }>
                   <Image style={styles.edit} source={globalImagePath.edit} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    dispatch(removeAddress());
+                    dispatch(removeAddress(item.id));
                   }}>
                   <Image
                     style={styles.delete}
@@ -76,7 +79,7 @@ const Addresses = () => {
       />
       <TouchableOpacity
         style={styles.addAddress}
-        onPress={() => navigation.navigate('AddAddress')}>
+        onPress={() => navigation.navigate('AddAddress', {type: 'new'})}>
         <Text style={styles.plus}>+</Text>
       </TouchableOpacity>
     </View>
