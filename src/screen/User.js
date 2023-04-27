@@ -7,8 +7,10 @@ import {
   responsiveFontSize as rfs,
 } from 'react-native-responsive-dimensions';
 import Header from '../component/Header';
+import { useNavigation } from '@react-navigation/native';
 
 const User = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Header title={'Profile'} />
@@ -19,8 +21,8 @@ const User = () => {
         <TouchableOpacity style={styles.tab}>
           <Text style={styles.tabTxt}>Edit Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tab}>
-          <Text style={styles.tabTxt}>Edit Order</Text>
+        <TouchableOpacity style={styles.tab} onPress={()=> navigation.navigate('Order') }>
+          <Text style={styles.tabTxt}>Order</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.tab}>
           <Text style={styles.tabTxt}>Address</Text>

@@ -19,13 +19,14 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addItemToCart,
+  emptyCart,
   reduceItemFromCart,
   removeItemFromCart,
 } from '../redux/slices/CartSlices';
 import CustomButton from '../component/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RazorpayCheckout from 'react-native-razorpay';
-
+import {AddOrderList} from '../redux/slices/OrderListSlices';
 
 const Checkout = () => {
   const items = useSelector(state => state.cart);
@@ -37,14 +38,14 @@ const Checkout = () => {
   const [selectAddress, setSelectAddress] = useState('Please Select Address');
   const dispatch = useDispatch();
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     setCartItem(items.data);
   }, [items]);
 
   useEffect(() => {
-    getSelectedAddress()
+    getSelectedAddress();
   }, [isFocused]);
   const getSelectedAddress = async () => {
     setSelectAddress(await AsyncStorage.getItem('MY_ADDRESS'));
@@ -55,6 +56,62 @@ const Checkout = () => {
       total = total + item.qty * item.price;
     });
     return total;
+  };
+
+  const myOderList = paymentId => {
+    let day = new Date().getDay();
+    let month = new Date().getMonth();
+    let year = new Date().getFullYear();
+    let hours = new Date().getHours();
+    let minutes = new Date().getMinutes();
+
+    let ampm = ''
+    if(hours > 12) {
+      ampm= "pm"
+    }else{
+      ampm="am"
+    }
+
+    let data = {
+      item: cartItem,
+      amount: 'INR'+ ' ' + getTotalAmount(),
+      method: payMethodSelected,
+      paymentId: paymentId,
+      address: selectAddress,
+      paymentStatus: payMethodSelected === 3 ? 'Pending' : 'Done',
+      date: day +'/'+month +'/'+ year + ' ' + hours + ':' + minutes+ampm
+
+    };
+    dispatch(AddOrderList(data));
+    dispatch(emptyCart());
+    navigation.navigate('OrderSuccess');
+  };
+
+  const payNow = () => {
+    var options = {
+      description: 'Credits towards consultation',
+      image: 'https://i.imgur.com/3g7nmJC.png',
+      currency: 'INR',
+      key: 'rzp_test_6xSvy1s9GVRSs3', // Your api key
+      amount: getTotalAmount() * 100,
+      name: 'foo',
+      prefill: {
+        email: 'void@razorpay.com',
+        contact: '9191919191',
+        name: 'Razorpay Software',
+      },
+      theme: {color: '#F37254'},
+    };
+    RazorpayCheckout.open(options)
+      .then(data => {
+        // handle success
+        // alert(`Success: ${data.razorpay_payment_id}`);
+        myOderList(data.razorpay_payment_id);
+      })
+      .catch(error => {
+        // handle failure
+        alert(`Error: ${error.code} | ${error.description}`);
+      });
   };
 
   return (
@@ -205,29 +262,11 @@ const Checkout = () => {
           {selectAddress}
         </Text>
 
-        <CustomButton buttonText={'Pay or Order'} bg={'green'}  onPress={()=>{
-           var options = {
-            description: 'Credits towards consultation',
-            image: 'https://i.imgur.com/3g7nmJC.png',
-            currency: 'INR',
-            key: 'rzp_test_6xSvy1s9GVRSs3', // Your api key
-            amount: '5000',
-            name: 'foo',
-            prefill: {
-              email: 'void@razorpay.com',
-              contact: '9191919191',
-              name: 'Razorpay Software'
-            },
-            theme: {color: '#F37254'}
-          }
-          RazorpayCheckout.open(options).then((data) => {
-            // handle success
-            alert(`Success: ${data.razorpay_payment_id}`);
-          }).catch((error) => {
-            // handle failure
-            alert(`Error: ${error.code} | ${error.description}`);
-          });
-        }}/>
+        <CustomButton
+          buttonText={'Pay or Order'}
+          bg={'green'}
+          onPress={() => payNow()}
+        />
       </ScrollView>
     </View>
   );

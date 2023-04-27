@@ -12,6 +12,9 @@ import SignUp from '../screen/SignUp';
 import Checkout from '../screen/Checkout';
 import Addresses from '../screen/Addresses';
 import Addaddress from '../screen/Addaddress';
+import Profile from '../screen/Profile';
+import OrderSuccess from '../screen/OrderSuccess';
+import Order from '../screen/Order';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,7 +72,18 @@ const AppNavigation = () => {
           name={'AddAddress'}
           component={Addaddress}
         />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name={'Order'}
+          component={Order}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name={'OrderSuccess'}
+          component={OrderSuccess}
+        />
       </Stack.Navigator>
+      
      
     </NavigationContainer>
   );

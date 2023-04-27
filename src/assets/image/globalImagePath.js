@@ -18,6 +18,7 @@ export const globalImagePath = {
     radioButton:require('./radio-button.png'),
     radioButtonOn:require('./radio-on-button.png'),
     edit:require('./pen.png'),
-    delete:require('./delete.png')
+    delete:require('./delete.png'),
+    orderSuccess:require('./checked.png')
 
 }
